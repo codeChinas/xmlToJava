@@ -2,6 +2,8 @@ package com.sermo.Demo2;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -15,8 +17,10 @@ public class Xpp3Parse {
 			factory.setNamespaceAware(true);
 			XmlPullParser xpp = factory.newPullParser();
 			long start = System.currentTimeMillis();
-			xpp.setInput(new FileInputStream("E:/liran/statelliteproductorderorderneworder65493_WX_ORDER.xml"), "utf-8");
+//			xpp.setInput(new FileInputStream("E:/liran/statelliteproductorderorderneworder65493_WX_ORDER.xml"), "utf-8");
+			xpp.setInput(new FileInputStream("E:/liran/NewFile.xml"), "utf-16");
 			int eventType = xpp.getEventType();
+			List<String> out = new ArrayList<String>();
 			while (true) {
 				switch (eventType) {
 				case XmlPullParser.START_DOCUMENT:
@@ -24,6 +28,7 @@ public class Xpp3Parse {
 					break;
 				case XmlPullParser.START_TAG:
 					System.out.println("Start of Tag: " + xpp.getName());
+					out.add(xpp.getName());
 					if (xpp.getAttributeCount() > 0) {
 						for (int i = 0; i < xpp.getAttributeCount(); i++) {
 							System.out.println(xpp.getAttributeName(i) + " = " + xpp.getAttributeValue(i));
@@ -42,6 +47,7 @@ public class Xpp3Parse {
 				eventType = xpp.next();
 			}
 			System.out.println("XPP3耗时：" + (System.currentTimeMillis() - start) + " ms");
+			System.out.println(out.toString());
 		} catch(XmlPullParserException e){
 			e.printStackTrace();
 		} catch(IOException e1){
